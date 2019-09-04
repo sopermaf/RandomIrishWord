@@ -3,10 +3,41 @@ import requests
 import random
 import string
 
+letters = [char for char in string.ascii_lowercase]
+probs = [
+    0.059927035685846036,
+    0.06883460804829719,
+    0.13853960258523307,
+    0.07685327506064928,
+    0.023037463656734383,
+    0.0773718031815404,
+    0.06574195818441082,
+    0.008148299042574863,
+    0.035778440341487805,
+    0.0002777829219059612,
+    0.0,
+    0.053315802144484156,
+    0.06357525139354432,
+    0.022741161873368027,
+    0.0150373155058427,
+    0.040797051797255506,
+    5.555658438119224e-05,
+    0.03274134706198263,
+    0.13333580251486138,
+    0.06720494823978222,
+    0.013833589510916868,
+    0.0021111502064853054,
+    0.0,
+    0.000537046982351525,
+    5.555658438119224e-05,
+    0.00014815089168317933
+ ]
+
 def get_random_word():
     """
     Get a random word from http://www.teanglann.ie
-    in Irish.
+    in Irish. Uses a cumulative probability distribution
+    based on the number of entries for each letter.
 
     Args:
         None
@@ -14,7 +45,10 @@ def get_random_word():
     Returns:
         A string of a random Irish word
     """
-    letter = random.choice(string.ascii_letters).lower()
+    letter = random.choices(letters, probs)[0]
+
+    # Cumulative Probability Based on Num of Dictionary entries
+
     website = 'https://www.teanglann.ie/en/fgb/_' + letter
     result = requests.get(website)
     soup = BeautifulSoup(result.content, 'html.parser')
