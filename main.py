@@ -56,6 +56,7 @@ def get_random_word():
     word = random.choice(samples)
     return word.a.text
 
+
 def get_translation(word):
     """
     Get the translation of a given `word`
@@ -77,6 +78,38 @@ def get_translation(word):
         all_trans.append(tran.text)
     return ' '.join(all_trans)
 
+
+def get_num_entries(letter):
+    """
+    Get number of entries that start with `letter`
+    in https://www.teanglann.ie.
+
+    Args:
+        str: first letter of entries to count
+
+    Returns:
+        int: number of entries
+
+    """
+    website = 'https://www.teanglann.ie/en/fgb/_' + letter
+    result = requests.get(website)
+    soup = BeautifulSoup(result.content, 'html.parser')
+    samples = soup.find_all('span', class_="abcItem")
+    return len(samples)
+
+
 if __name__ == "__main__":
-    word = get_random_word()
-    print(get_translation(word))
+    choice = input('(r)andom or (d)efinition: ')
+    choice = choice.lower()
+    if choice == 'r':
+        word = get_random_word()
+    elif choice == 'd':
+        word = input('Irish word: ')
+    else:
+        raise ValueError('Choice, "%s" not a valid option. Options: ["d", "r"]' % choice)
+
+    trans = get_translation(word)
+    if len(trans) < 1:
+        print("No entry found in dictionary for '%s'" % word)
+    else:
+        print(get_translation(word))
