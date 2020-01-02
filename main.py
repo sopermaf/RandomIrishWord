@@ -2,6 +2,7 @@ from bs4 import BeautifulSoup
 import requests
 import random
 import string
+import sys
 
 letters = [char for char in string.ascii_lowercase]
 probs = [
@@ -33,6 +34,30 @@ probs = [
     0.00014815089168317933
  ]
 
+def write_random_word_file():
+    ''' Get a random word and save to a txt file '''
+    word = get_random_definition()
+    with open('irish_word.txt', 'w+') as word_file:
+        word_file.write(word)
+
+
+def interactive_main():
+    '''Random word or search for -t and word'''
+    if '-t' in sys.argv:
+        word_to_trans = sys.argv[2]
+        translate_word(word_to_trans)
+    else:
+        word = get_random_definition()
+        print(word)
+
+
+def get_random_definition():
+    '''Get a random irish word and its definition'''
+    word = get_random_word()
+    definition = get_translation(word)
+    return definition
+
+
 def get_random_word():
     """
     Get a random word from http://www.teanglann.ie
@@ -43,7 +68,7 @@ def get_random_word():
         None
 
     Returns:
-        A string of a random Irish word
+        A string of a random Irish word without translation
     """
     letter = random.choices(letters, probs)[0]
 
@@ -55,6 +80,15 @@ def get_random_word():
     samples = soup.find_all('span', class_="abcItem")
     word = random.choice(samples)
     return word.a.text
+
+
+def translate_word(word):
+    translation = get_translation(word)
+    
+    if not translation:
+        print('No translation found for %s' % word)
+    else:
+        print(translation)
 
 
 def get_translation(word):
@@ -71,12 +105,19 @@ def get_translation(word):
     link = "https://www.teanglann.ie/en/fgb/" + word
     word_result = requests.get(link)
     word_page = BeautifulSoup(word_result.content, 'html.parser')
-    #trans = word_page.find_all('span', class_='trans')
     trans = word_page.find_all('div', class_='entry')
     all_trans = []
     for tran in trans:
+        if '=' in tran.text:
+            word = tran.text.split('=')[-1]
+            word = ''.join(filter(str.isalpha, word))
         all_trans.append(tran.text)
-    return ' '.join(all_trans)
+        
+    trans = ' '.join(all_trans)
+    if '=' in trans:
+        trans += "(AUTOSEARCH) " + get_translation(word)
+    
+    return trans
 
 
 def get_num_entries(letter):
@@ -99,17 +140,4 @@ def get_num_entries(letter):
 
 
 if __name__ == "__main__":
-    choice = input('(r)andom or (d)efinition: ')
-    choice = choice.lower()
-    if choice == 'r':
-        word = get_random_word()
-    elif choice == 'd':
-        word = input('Irish word: ')
-    else:
-        raise ValueError('Choice, "%s" not a valid option. Options: ["d", "r"]' % choice)
-
-    trans = get_translation(word)
-    if len(trans) < 1:
-        print("No entry found in dictionary for '%s'" % word)
-    else:
-        print(get_translation(word))
+    interactive_main()
