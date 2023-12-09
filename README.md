@@ -1,6 +1,6 @@
 # Description
 
-This is a script designed to return a random word in Irish
+This is a library designed to return a random word in Irish
 from http://www.teanglann.ie to help learns of Irish improve
 their vocabulary.
 
