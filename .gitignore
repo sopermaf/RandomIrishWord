@@ -1,4 +1,5 @@
 __pycache__
 
 .venv/
-.vscode/
+.vscode/settings.json
+*.egg-info
