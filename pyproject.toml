@@ -9,7 +9,7 @@ authors = [
 maintainers = [
   { name = "My Organization", email = "myemail@email.com" },
 ]
-requires-python = ">=3.8"
+requires-python = ">=3.11"
 
 dependencies = [
   "bs4",
@@ -23,6 +23,16 @@ classifiers = [
   "Programming Language :: Python :: 3.11",
   "Programming Language :: Python :: 3.12",
   "Topic :: Language :: Irish/Gaeilge",
+]
+
+[project.optional-dependencies]
+dev = [
+  "pre-commit",
+  "mypy",
+  "types-requests",
+  "types-beautifulsoup4",
+  "pytest",
+  "pytest-cov",
 ]
 
 [project.urls]
