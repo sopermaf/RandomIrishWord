@@ -18,9 +18,8 @@ jobs:
       with:
         python-version: "3.11"
     - name: Install dependencies
-      run: python -m pip install hatch
+      run: python -m pip install hatch twine
     - name: Build wheel
       run: hatch -v build -t wheel:standard
     - name: Publish
-      run: |
-        echo 'do something'
+      run: twine upload --verbose --repository pypi dist/*
