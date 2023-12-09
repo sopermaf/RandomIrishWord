@@ -1,0 +1,31 @@
+[project]
+name = "teanglann"
+version = "0.0.1"
+description = "Random Irish words from teanglann.ie"
+readme = "README.md"
+authors = [
+  { name = "My Name", email = "sopermaf@tcd.ie" },
+]
+maintainers = [
+  { name = "My Organization", email = "myemail@email.com" },
+]
+requires-python = ">=3.8"
+
+dependencies = [
+  "bs4",
+  "requests",
+]
+
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "Programming Language :: Python :: 3 :: Only",
+  "Programming Language :: Python :: 3.8",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Topic :: Scientific/Engineering :: Physics",
+]
+
+[project.urls]
+Homepage = "https://github.com/sopermaf/RandomIrishWord"

@@ -1,8 +1,9 @@
-from bs4 import BeautifulSoup
-import requests
 import random
 import string
 import sys
+
+import requests
+from bs4 import BeautifulSoup
 
 letters = [char for char in string.ascii_lowercase]
 probs = [
@@ -31,19 +32,21 @@ probs = [
     0.0,
     0.000537046982351525,
     5.555658438119224e-05,
-    0.00014815089168317933
- ]
+    0.00014815089168317933,
+]
+
 
 def write_random_word_file():
-    ''' Get a random word and save to a txt file '''
+    """Get a random word and save to a txt file"""
     word = get_random_definition()
-    with open('irish_word.txt', 'w+') as word_file:
+    with open("irish_word.txt", "w+") as word_file:
         word_file.write(word)
 
 
+# TODO: move this to __main__.py
 def interactive_main():
-    '''Random word or search for -t and word'''
-    if '-t' in sys.argv:
+    """Random word or search for -t and word"""
+    if "-t" in sys.argv:
         word_to_trans = sys.argv[2]
         translate_word(word_to_trans)
     else:
@@ -52,10 +55,9 @@ def interactive_main():
 
 
 def get_random_definition():
-    '''Get a random irish word and its definition'''
+    """Get a random irish word and its definition"""
     word = get_random_word()
-    definition = get_translation(word)
-    return definition
+    return get_translation(word)
 
 
 def get_random_word():
@@ -74,19 +76,19 @@ def get_random_word():
 
     # Cumulative Probability Based on Num of Dictionary entries
 
-    website = 'https://www.teanglann.ie/en/fgb/_' + letter
+    website = "https://www.teanglann.ie/en/fgb/_" + letter
     result = requests.get(website)
-    soup = BeautifulSoup(result.content, 'html.parser')
-    samples = soup.find_all('span', class_="abcItem")
+    soup = BeautifulSoup(result.content, "html.parser")
+    samples = soup.find_all("span", class_="abcItem")
     word = random.choice(samples)
     return word.a.text
 
 
 def translate_word(word):
     translation = get_translation(word)
-    
+
     if not translation:
-        print('No translation found for %s' % word)
+        print("No translation found for %s" % word)
     else:
         print(translation)
 
@@ -104,19 +106,19 @@ def get_translation(word):
     """
     link = "https://www.teanglann.ie/en/fgb/" + word
     word_result = requests.get(link)
-    word_page = BeautifulSoup(word_result.content, 'html.parser')
-    trans = word_page.find_all('div', class_='entry')
+    word_page = BeautifulSoup(word_result.content, "html.parser")
+    trans = word_page.find_all("div", class_="entry")
     all_trans = []
     for tran in trans:
-        if '=' in tran.text:
-            word = tran.text.split('=')[-1]
-            word = ''.join(filter(str.isalpha, word))
+        if "=" in tran.text:
+            word = tran.text.split("=")[-1]
+            word = "".join(filter(str.isalpha, word))
         all_trans.append(tran.text)
-        
-    trans = ' '.join(all_trans)
-    if '=' in trans:
+
+    trans = " ".join(all_trans)
+    if "=" in trans:
         trans += "(AUTOSEARCH) " + get_translation(word)
-    
+
     return trans
 
 
@@ -132,10 +134,10 @@ def get_num_entries(letter):
         int: number of entries
 
     """
-    website = 'https://www.teanglann.ie/en/fgb/_' + letter
+    website = "https://www.teanglann.ie/en/fgb/_" + letter
     result = requests.get(website)
-    soup = BeautifulSoup(result.content, 'html.parser')
-    samples = soup.find_all('span', class_="abcItem")
+    soup = BeautifulSoup(result.content, "html.parser")
+    samples = soup.find_all("span", class_="abcItem")
     return len(samples)
 
 
