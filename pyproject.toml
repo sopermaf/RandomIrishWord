@@ -1,6 +1,6 @@
 [project]
 name = "teanglann"
-version = "0.0.1"
+version = "0.0.2"
 description = "Random Irish words from teanglann.ie"
 readme = "README.md"
 authors = [
@@ -48,3 +48,6 @@ exclude = [
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/teanglann"]
+
+[project.scripts]
+teanglann = "teanglann.__main__:cli"
