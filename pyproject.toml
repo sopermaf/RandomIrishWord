@@ -1,6 +1,6 @@
 [project]
 name = "teanglann"
-version = "0.1.0"
+version = "0.1.1"
 description = "Random Irish words from teanglann.ie"
 readme = "README.md"
 authors = [
