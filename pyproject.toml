@@ -4,10 +4,10 @@ version = "0.1.0"
 description = "Random Irish words from teanglann.ie"
 readme = "README.md"
 authors = [
-  { name = "My Name", email = "sopermaf@tcd.ie" },
+  { name = "Ferdia Soper Mac Cafraidh", email = "sopermaf@tcd.ie" },
 ]
 maintainers = [
-  { name = "My Organization", email = "myemail@email.com" },
+  { name = "Ferdia Soper Mac Cafraidh", email = "soeprmaf@tcd.ie" },
 ]
 requires-python = ">=3.9"
 
