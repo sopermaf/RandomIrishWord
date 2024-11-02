@@ -1,4 +1,5 @@
 build:
+	-rm -r dist
 	hatch -v build -t wheel:standard
 
 publish:
